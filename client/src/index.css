@@ -13,6 +13,8 @@
   --blue-color-800: #063583;
   --blue-color-900: #041F4D;
 
+  --red-color-500: #EF4444;
+
   --gray-color-50 : #CDD0D5;
   --gray-color-100 : #C2C5CC;
   --gray-color-200 : #ACB0BA;
@@ -42,8 +44,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
 .nav-link {
@@ -52,6 +53,18 @@ code {
 
 .text-white {
   color: var(--blue-color-50) !important;
+}
+
+.text-danger {
+  color: var(--red-color-500) !important;
+}
+
+.text-primary {
+  color: var(--blue-color-700) !important;
+}
+
+.text-mutted {
+  color: var(--gray-color-600) !important;
 }
 
 .bg-dark {
@@ -76,9 +89,9 @@ code {
 }
 
 .btn.btn-primary {
-  color: var(--blue-color-100);
-  background-color: var(--blue-color-600);
-  border-color: var(--blue-color-600);
+  color: var(--blue-color-50);
+  background-color: var(--blue-color-700);
+  border-color: var(--blue-color-700);
 }
 
 .bg-blue{
@@ -87,4 +100,9 @@ code {
 
 .bg-gray {
   background-color: var(--gray-color-800);
+}
+
+.container-full {
+  height: 100vh;
+  position: relative;
 }

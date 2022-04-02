@@ -7,7 +7,7 @@ const NotFound = () => {
     <div className="container position-absolute top-0 start-0 bottom-0 end-0 d-flex align-items-center">
       <div className="row align-items-center flex-column mx-auto">
         <div className="col-md-6 py-2 d-flex justify-content-center align-items-center">
-        <img src={logo404} alt="404 Not found" className="img-fluid" />
+        <img src={ logo404 } alt="404 Not found" className="img-fluid" />
         </div>
         <div className="col-md-6 d-flex py-2">
           <div className="d-flex flex-column justify-content-center align-items-center">

@@ -1,12 +1,12 @@
 import React from 'react';
 import { Col, Container, Image, Row } from 'react-bootstrap';
-import NavSideMenu from './../components/NavSideMenu';
+import NavSideMenu from './../components/NavSideMenu/NavSideMenu';
 import brainstorming from './../assets/img/svg/manypixels_Brainstorming-session_Monochromatic.svg';
 import ranking from './../assets/img/svg/manypixels_Ranking_Monochromatic.svg';
 import teambuilding from './../assets/img/svg/manypixels_Team-building_Monochromatic.svg';
 import progress from './../assets/img/svg/manypixels_Progress_Monochromatic.svg';
 import { Link } from 'react-router-dom';
-import Footer from '../components/Footer';
+import Footer from '../components/Footer/Footer';
 
 const Home = () => {
   return (
@@ -15,7 +15,7 @@ const Home = () => {
 
       <Container className="py-5">
         <Row className="justify-content-center align-items-center">
-          <Image className="img-fluid col-lg-8 py-5" src={brainstorming}></Image>
+          <Image className="img-fluid col-lg-8 py-5" src={ brainstorming } alt="People brainstorming"></Image>
           <Col lg={4} className="py-5">
             <Row>
               <Col className="col-9 col-lg-12 mx-auto text-center text-lg-start">
@@ -40,7 +40,7 @@ const Home = () => {
               </Col>
               <Col md={6} className="py-2">
                 <div className="d-flex justify-content-end align-items-center">
-                <Image className="img-fluid" src={ranking}></Image>
+                <Image className="img-fluid" src={ ranking } alt="People building a ranking"></Image>
                 </div>
               </Col>
             </Row>
@@ -56,7 +56,7 @@ const Home = () => {
               </Col>
               <Col md={6} className="py-2">
                 <div className="d-flex justify-content-start align-items-center">
-                <Image className="img-fluid" src={teambuilding}></Image>
+                <Image className="img-fluid" src={ teambuilding } alt="People building a board with metrics"></Image>
                 </div>
               </Col>
             </Row>
@@ -72,7 +72,7 @@ const Home = () => {
               </Col>
               <Col md={6} className="py-2">
                 <div className="d-flex justify-content-end align-items-center">
-                <Image className="img-fluid" src={progress}></Image>
+                <Image className="img-fluid" src={ progress } alt="People analyzing data"></Image>
                 </div>
               </Col>
             </Row>
@@ -87,12 +87,6 @@ const Home = () => {
             </div>
           </Col>
         </Row>
-
-        {/* <Row className="justify-content-center align-items-center py-1">
-          <Col xs={8} className="py-1">
-            <div className="border-bottom"></div>
-          </Col>
-        </Row> */}
       </div>
 
       <Footer/>
