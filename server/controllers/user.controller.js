@@ -1,8 +1,4 @@
 const { User } = require('./../models/user.model');
-// Dotenv Config
-require('dotenv').config();
-const secretkey = process.env.SECRET_KEY;
-const jwt = require('jsonwebtoken');
 
 const getAllUsers = (req, res) => {
   User.find({}).sort({ type: 'asc' })
@@ -47,14 +43,10 @@ const createUser = (req, res) => {
         role: result.role
       };
 
-      const expiration = {
-        expiresIn: '20m'
-      }
-
-      // * Response with jwt token
-      jwt.sign(payload, secretkey, expiration, (err, token) =>
-        res.status(201).json({ token })
-      )
+      return res.status(201).json({
+        message: 'User created successfully',
+        user: payload
+      });
 
     })
     .catch(err => {

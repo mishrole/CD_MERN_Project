@@ -14,6 +14,7 @@ const io = new Server(server);
 
 // Routers
 const indexRouter = require('./server/routes/index.routes.js');
+const authRouter = require('./server/routes/auth.routes.js');
 const userRouter = require('./server/routes/user.routes.js');
 const chatappRouter = require('./server/routes/chatapp.routes.js');
 
@@ -27,6 +28,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.use('/', indexRouter);
+app.use('/api/auth', authRouter);
 app.use('/api/users', userRouter);
 app.use('/api/chatapp', chatappRouter);
 
