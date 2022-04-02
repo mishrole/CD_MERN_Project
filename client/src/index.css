@@ -1,0 +1,57 @@
+body {
+  color: var(--blue-color-100);
+  background-color: var(--blue-color-900);
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+:root {
+  --primary-color: #3983f7;
+  --dark-color: #282828;
+  
+  --blue-color-50: #EBF2FE;
+  --blue-color-100: #D7E6FD;
+  --blue-color-200: #B0CDFB;
+  --blue-color-300: #89B4FA;
+  --blue-color-400: #629BF8;
+  --blue-color-500: #3B82F6;
+  --blue-color-600: #0B61EE;
+  --blue-color-700: #084BB8;
+  --blue-color-800: #063583;
+  --blue-color-900: #041F4D;
+
+  --gray-color-50 : #CDD0D5;
+  --gray-color-100 : #C2C5CC;
+  --gray-color-200 : #ACB0BA;
+  --gray-color-300 : #969BA7;
+  --gray-color-400 : #7F8694;
+  --gray-color-500 : #6B7280;
+  --gray-color-600 : #515761;
+  --gray-color-700 : #383C43;
+  --gray-color-800 : #1E2024;
+  --gray-color-900 : #050506;
+}
+
+.text-white {
+  color: var(--blue-color-100) !important;
+}
+
+.bg-dark {
+  background-color: var(--blue-color-900) !important;
+}
+
+.bg-semi {
+  background-color: var(--blue-color-800) !important;
+}
