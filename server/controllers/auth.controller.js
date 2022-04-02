@@ -38,9 +38,20 @@ const register = (req, res) => {
       }
 
       // * Response with jwt token
-      jwt.sign(payload, secretkey, expiration, (err, token) =>
-        res.status(201).json({ token })
-      )
+      // jwt.sign(payload, secretkey, expiration, (err, token) =>
+      //   res.status(201).json({ token })
+      // )
+
+      // ? Set cookie
+      // res.cookie('mycookie', token, { httpOnly: true}).json({
+      //   message: 'User created successfully'
+      // });
+
+      // * Response with jwt token
+      const newJwt = jwt.sign(payload, secretkey, expiration);
+      res.cookie('usertoken', newJwt, secretkey, {
+        httpOnly: true
+      }).json({ message: 'User created successfully' });
 
     })
     .catch(err => {
@@ -55,14 +66,14 @@ const register = (req, res) => {
         };
 
         return res.status(400).json({
-          message: 'Error creating user',
+          message: 'Error registering user',
           error: {
             errors: errors || err
           }
         })
       } else {
         return res.status(400).json({
-          message: 'Error creating user',
+          message: 'Error registering user',
           error: err
         })
       }
@@ -104,13 +115,28 @@ const login = (req, res) => {
       }
 
       // * Response with jwt token
-      jwt.sign(payload, secretkey, expiration, (err, token) =>
-        res.status(200).json({
-          message: `Welcome back ${result.firstname}`,
-          token
-        })
-      )
+      // jwt.sign(payload, secretkey, expiration, (err, token) =>
+      //   res.status(200).json({
+      //     message: `Welcome back ${result.firstname}`,
+      //     token
+      //   })
+      // )
+
+      // * Response with jwt token
+      const newJwt = jwt.sign(payload, secretkey, expiration);
+      res.cookie('usertoken', newJwt, secretkey, {
+        httpOnly: true
+      }).json({ message: `Welcome back ${result.firstname}` });
     });
+  })
+  .catch(err => {
+
+    console.log(err);
+
+    return res.status(400).json({
+      message: 'Error logging in',
+      error: err
+    })
   });
 }
 
