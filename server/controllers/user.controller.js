@@ -2,8 +2,6 @@ const { User } = require('./../models/user.model');
 // Dotenv Config
 require('dotenv').config();
 const secretkey = process.env.SECRET_KEY;
-const saltRounds = process.env.SALT_ROUNDS;
-const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const getAllUsers = (req, res) => {
@@ -30,19 +28,6 @@ const createUser = (req, res) => {
     });
   } else {
 
-    // bcrypt.hash(password, Number(saltRounds))
-    // .then (encryptedPassword => {
-    //   const newUser = {
-    //     email,
-    //     password: encryptedPassword,
-    //     firstname,
-    //     lastname,
-    //     role,
-    //     confirm
-    //   };
-
-    // });
-
     const newUser = {
         email,
         password,
@@ -66,15 +51,11 @@ const createUser = (req, res) => {
         expiresIn: '20m'
       }
 
+      // * Response with jwt token
       jwt.sign(payload, secretkey, expiration, (err, token) =>
         res.status(201).json({ token })
       )
 
-
-      // res.status(201).json({
-      //   message: `User identified as ${email} created successfully`,
-      //   user: result
-      // })
     })
     .catch(err => {
 
@@ -104,9 +85,25 @@ const createUser = (req, res) => {
 
 }
 
+const findUser = (req, res) => {
+  User.findOne({ _id: req.params.id })
+  .then(data =>
+    res.status(200).json({
+      user: data
+    })
+  )
+  .catch(err =>
+    res.status(400).json({
+      message: `Error getting user wit Id ${req.params.id}`,
+      error: err
+    })
+  );
+}
+
 const UserController = {
   getAllUsers,
-  createUser
+  createUser,
+  findUser
 }
 
 module.exports = UserController;
