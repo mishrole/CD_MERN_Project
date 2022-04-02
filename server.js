@@ -40,4 +40,12 @@ app.use('/api/chatapp', chatappRouter);
 server.listen(port, () => console.log(`Server is running on port ${port}`) )
 
 // Socket.io Listener
-io.on('connection', socket => console.log('new WS connection'));
+io.on('connection', socket => {
+  // * Each client gets their own socket id
+  console.log('New WS connection', socket.id);
+
+  socket.on('event_from_client', data => {
+    // * Broadcast emit to all other clients besides the client who is actually emitting the event
+    socket.broadcast.emit('send_data_to_all_other_clients', data);
+  })
+});
