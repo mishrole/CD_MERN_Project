@@ -10,12 +10,12 @@ A Full-Stack project for Coding Dojo's Full-Stack Bootcamp (MERN Stack).
 
 <img height="60" width="60" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original-wordmark.svg" /> <img height="60" width="60" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-original-wordmark.svg" />
 
-React v17, React-bootstrap, Bootstrap 5, Axios, React-router-dom v6
+React v17, React-bootstrap, Bootstrap 5, Axios, React-router-dom v6, React-hook-form, Socket.io-client
 
 #### Server
 <img height="60" width="60" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original-wordmark.svg" /> <img height="60" width="60" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original-wordmark.svg" /> <img height="60" width="60" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-plain-wordmark.svg" />
 
-Node.js, Express, MongoDB, Mongoose, Cors, Socket.io
+Node.js, Express, MongoDB, Mongoose, Cors, Socket.io, Jsonwebtoken, BCrypt, Cookie-parser
 
 #### Deployment
 
