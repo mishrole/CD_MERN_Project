@@ -106,3 +106,30 @@ code {
   height: 100vh;
   position: relative;
 }
+
+/* Scrollbar */
+
+/* Works on Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--blue-color-100) var(--blue-color-400);
+}
+
+/* Works on Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--blue-color-100);
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: var(--blue-color-400);
+  border-radius: 8px;
+  border: 1px solid var(--blue-color-100);
+}
+
+.full-height {
+  height: 90vh;
+}

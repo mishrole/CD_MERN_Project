@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import MainContext from '../../context/SocketContext';
 import MessageForm from './MessageForm/MessageForm';
+import MessagesList from './MessagesList/MessagesList';
 
 const Chat = () => {
   const [socket] = useContext(MainContext);
@@ -11,32 +12,37 @@ const Chat = () => {
    if (isLogged && socket) {
     socket.on('get_message', (response) => {
       console.log(response);
-      setMessages([...messages, response]);
+      // ! 😱
+      // setMessages([...messages, response]);
+      setMessages (prevMessages => {
+        return [...prevMessages, response];
+      })
     });
    }
-  }, [socket, messages, isLogged]);
+  // ! Causes an ugly re-rendering 😱
+  // }, [socket, messages, isLogged]);
+  }, [socket, isLogged]);
 
   const onFormSubmit = (data) => {
     socket.emit('message', data.message);
   }
 
   return (
-    <>
-      <MessageForm onSubmitProp={ onFormSubmit }/>
-
+    <div className="px-3 d-flex flex-column position-absolute start-0 end-0 top-0 bottom-0">
       {
         socket ? 
-        <div>
-          <h3>Received messages:</h3>
-          <div>{messages.map((message, index) => <p key={index}>{message}</p>)}</div>
-        </div> 
+        <MessagesList messages={ messages } />
         : <div>
           <h3>Received messages:</h3>
           <h1>Not connected</h1>
         </div>
       }
 
-    </>
+      <div className="flex-shink-0">
+        <MessageForm onSubmitProp={ onFormSubmit }/>
+      </div>
+
+    </div>
     
   )
 }

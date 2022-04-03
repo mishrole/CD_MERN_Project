@@ -22,8 +22,7 @@ const Workspace = () => {
   return (
     <>
     <NavSideMenu />
-    <Container>
-      <p>Workspace</p>
+    <Container className="position-relative full-height">
       <Chat />
     </Container>
     </>
