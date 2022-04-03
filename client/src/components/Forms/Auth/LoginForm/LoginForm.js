@@ -3,10 +3,20 @@ import { Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 
-const LoginForm = () => {
+const LoginForm = (props) => {
+  const { onSubmitProp } = props;
+
   const { register, handleSubmit, formState: { errors } } = useForm();
 
-  const onSubmit = (data) => {
+  const emailRegex = /^(([^<>()\\[\]\\.,;:\s@"]+(\.[^<>()\\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+  const onSubmit = (formData) => {
+    const data = {
+      email: formData.email,
+      password: formData.password
+    };
+
+    onSubmitProp(data);
     console.log(data);
   }
 
@@ -19,12 +29,19 @@ const LoginForm = () => {
           <div className="row align-items-center justify-content-center">
             <div className="mb-3">
               <label htmlFor="email" className="form-label text-primary">Email</label>
-              <input type="email" className="form-control" id="email" 
-              {...register("email", {
-                 required: {value: true, message: 'Email is required'},
-                 pattern: { value: /^(([^<>()\\[\]\\.,;:\s@"]+(\.[^<>()\\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/, message: 'Email is invalid'} 
-                 })
-              }/>
+              <input type="email" className="form-control" id="email" autoComplete="username"
+              {...register(
+                "email", {
+                  required: {
+                    value: true,
+                    message: 'Email is required'
+                  },
+                  pattern: {
+                    value: emailRegex,
+                    message: 'Email is invalid'
+                  } 
+                }
+              )}/>
               {
                 errors.email && errors.email.type === "required" && <span role="alert" className="text-danger">{errors.email.message}</span>
               }
@@ -34,7 +51,13 @@ const LoginForm = () => {
             </div>
             <div className="mb-3">
               <label htmlFor="password" className="form-label text-primary">Password</label>
-              <input type="password" className="form-control" id="password" {...register("password", { required: true, minLength: 8 })}/>
+              <input type="password" className="form-control" id="password" autoComplete="current-password" 
+              {...register(
+                "password", {
+                  required: true,
+                  minLength: 8 
+                }
+              )}/>
               {
                 errors.password && errors.password.type === "required" && <span role="alert" className="text-danger">Password is required</span>
               }

@@ -2,9 +2,45 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import reportWebVitals from './reportWebVitals';
 import Root from './routes';
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
+import axios from 'axios';
+
+// * Axios Interceptors
+
+// For GET requests
+axios.interceptors.request.use(
+  (req) => {
+    // Add configurations here
+    return req;
+  },
+  (err) => {
+    if (err.response.status === 401) {
+      useNavigate('/login');
+    }
+
+    return Promise.reject(err);
+  }
+);
+
+// For POST requests
+axios.interceptors.response.use(
+  (res) => {
+    // Add configurations here
+    // if (res.status === 201) {
+    //     console.log('Posted Successfully');
+    // }
+    return res;
+  },
+  (err) => {
+    if (err.response.status === 401) {
+      useNavigate('/login');
+    }
+    
+    return Promise.reject(err);
+  }
+);
 
 ReactDOM.render(
   <React.StrictMode>

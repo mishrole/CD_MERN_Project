@@ -126,7 +126,9 @@ const login = (req, res) => {
       const newJwt = jwt.sign(payload, secretkey, expiration);
       res.cookie('usertoken', newJwt, secretkey, {
         httpOnly: true
-      }).json({ message: `Welcome back ${result.firstname}` });
+      }).json({
+        message: `Welcome back ${result.firstname}`
+      });
     });
   })
   .catch(err => {
@@ -140,9 +142,15 @@ const login = (req, res) => {
   });
 }
 
+const logout = (req, res) => 
+  res.clearCookie('usertoken')
+  .status(200)
+  .json({ message: 'Successfully logged out' });
+
 const AuthController = {
   register,
-  login
+  login,
+  logout
 }
 
 module.exports = AuthController;

@@ -1,8 +1,25 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { Container, Nav, Navbar, Offcanvas } from 'react-bootstrap';
+import { Link, useNavigate } from 'react-router-dom';
+import { Button, Container, Nav, Navbar, Offcanvas } from 'react-bootstrap';
+import { errorMessage, successMessage } from '../../utils/SwalMessage';
+import { logout } from '../../helpers/auth/logout';
 
 const NavSideMenu = () => {
+  const navigate = useNavigate();
+  const loggedIn = localStorage.getItem('loggedIn');
+
+  const logOut = () => {
+    logout()
+    .then((response) => {
+      successMessage(response.data.message);
+      localStorage.removeItem('loggedIn');
+      navigate('/login');
+    })
+    .catch((err) => {
+      errorMessage(err?.error?._message || err?.message || err?.error?.message);
+    });
+  }
+
   return (
     <>
       <Navbar bg="dark" expand={false} className="navbar-dark">
@@ -12,7 +29,12 @@ const NavSideMenu = () => {
             <Link className="text-white navbar-brand" to="/">Dojo Chat</Link>
           </div>
           <div>
-            <Link className="btn btn-outline-light" to="/login">Login</Link>
+            {
+              !loggedIn ? 
+              <Link className="btn btn-outline-light" to="/login">Login</Link>
+              :
+              <Button variant="outline-danger" onClick={logOut}>Logout</Button>
+            }
           </div>
           <Navbar.Offcanvas id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel" placement="start" className="bg-semi">
             <Offcanvas.Header closeButton>

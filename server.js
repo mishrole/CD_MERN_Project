@@ -24,9 +24,14 @@ const chatappRouter = require('./server/routes/chatapp.routes.js');
 require('./server/config/mongoose.config');
 
 // Middleware
-// app.use(cors());
 app.use(cookieParser());
-app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
+
+app.use(cors({ 
+  credentials: true,
+  origin: 'http://localhost:3000',
+  methods: ['GET', 'PUT', 'POST', 'DELETE', 'OPTIONS']
+}));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
