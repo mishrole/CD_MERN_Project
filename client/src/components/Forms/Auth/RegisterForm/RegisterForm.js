@@ -135,7 +135,7 @@ const RegisterForm = (props) => {
                   onChange={ async (e) => {
                     // ! `passwordInput.onChange` is a Promise, wait password value to be updated before triggering validation on confirmPassword
                     await passwordInput.onChange(e);
-                    if (touchedFields.confirmPassword) {
+                    if (touchedFields.confirm || touchedFields.password) {
                       trigger("confirm");
                     }
                   }}
@@ -155,8 +155,8 @@ const RegisterForm = (props) => {
                 {...register(
                   "confirm", {
                     validate: {
-                      minLength: (value) => value.length > 0 || 'Confirm Password is required',
-                      match: (value) => (password === value) || "Passwords do not match"
+                      match: (value) => (password === value) || "Passwords do not match",
+                      minLength: (value) => value.length > 0 || 'Confirm Password is required'
                     }
                   }
                 )}/>

@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import reportWebVitals from './reportWebVitals';
 import Root from './routes';
-import { BrowserRouter, useNavigate } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
 import axios from 'axios';
@@ -17,7 +17,7 @@ axios.interceptors.request.use(
   },
   (err) => {
     if (err.response.status === 401) {
-      useNavigate('/login');
+      window.location.href = '/login';
     }
 
     return Promise.reject(err);
@@ -35,7 +35,7 @@ axios.interceptors.response.use(
   },
   (err) => {
     if (err.response.status === 401) {
-      useNavigate('/login');
+      window.location.href = '/login';
     }
     
     return Promise.reject(err);
