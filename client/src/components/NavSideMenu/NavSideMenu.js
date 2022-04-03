@@ -46,6 +46,9 @@ const NavSideMenu = () => {
             <Offcanvas.Body>
               <Nav className="justify-content-end flex-grow-1 pe-3">
                 <Link to="/" className="nav-link">Home</Link>
+                {
+                  isLogged ? <Link to="/workspace" className="nav-link">Chat</Link> : ''
+                }
               </Nav>
             </Offcanvas.Body>
           </Navbar.Offcanvas>
