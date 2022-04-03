@@ -30,7 +30,7 @@ const MessageForm = (props) => {
                 }
               )}/>
               {
-                errors.email && errors.email.type === "required" && <span role="alert" className="text-danger">{errors.email.message}</span>
+                errors.message && errors.message.type === "required" && <span role="alert" className="text-danger">{errors.message.message}</span>
               }
             </div>
           </div>
