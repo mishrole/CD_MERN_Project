@@ -54,15 +54,21 @@ const LoginForm = (props) => {
               <input type="password" className="form-control" id="password" autoComplete="current-password" 
               {...register(
                 "password", {
-                  required: true,
-                  minLength: 8 
+                  required: {
+                    value: true,
+                    message: 'Password is required'
+                  },
+                  minLength: {
+                    value: 8,
+                    message: 'Password must be at least 8 characters'
+                  }
                 }
               )}/>
               {
-                errors.password && errors.password.type === "required" && <span role="alert" className="text-danger">Password is required</span>
+                errors.password && errors.password.type === "required" && <span role="alert" className="text-danger">{errors.password.message}</span>
               }
               {
-                errors.password && errors.password.type === "minLength" && <span role="alert" className="text-danger">Password must be at least 8 characters</span>
+                errors.password && errors.password.type === "minLength" && <span role="alert" className="text-danger">{errors.password.message}</span>
               }
             </div>
           </div>
