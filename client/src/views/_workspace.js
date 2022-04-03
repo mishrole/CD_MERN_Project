@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { allUsers } from '../helpers/users/allUsers';
 import { errorMessage } from '../utils/SwalMessage';
-import NavSideMenu from '../components/NavSideMenu/NavSideMenu';
 import { Container } from 'react-bootstrap';
+import NavSideMenu from '../components/NavSideMenu/NavSideMenu';
+import Chat from '../components/Chat/Chat';
 
 const Workspace = () => {
   const [users, setUsers] = useState([]);
@@ -32,6 +33,7 @@ const Workspace = () => {
           })
         }
       </ul>
+      <Chat />
     </Container>
     </>
   )
