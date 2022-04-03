@@ -4,8 +4,9 @@ import socketio from "socket.io-client";
 const MainContext = createContext();
 
 const MainContextProvider = ({ children }) => {
-
-  const socket = socketio.connect('//localhost:8000');
+  
+  // let socket = socketio.connect('//localhost:8000');
+  const socket = socketio;
 
   return (
     <MainContext.Provider value={ socket }>
