@@ -1,15 +1,12 @@
-import { createContext } from 'react';
-import socketio from "socket.io-client";
+import { createContext, useState } from 'react';
 
 const MainContext = createContext();
 
 const MainContextProvider = ({ children }) => {
-  
-  // let socket = socketio.connect('//localhost:8000');
-  const socket = socketio;
+  const [socket, setSocket] = useState(null);
 
   return (
-    <MainContext.Provider value={ socket }>
+    <MainContext.Provider value={ [socket, setSocket] }>
       { children }
     </MainContext.Provider>
   )

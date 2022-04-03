@@ -1,17 +1,20 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button, Container, Nav, Navbar, Offcanvas } from 'react-bootstrap';
 import { errorMessage, successMessage } from '../../utils/SwalMessage';
 import { logout } from '../../helpers/auth/logout';
+import MainContext from '../../context/SocketContext';
 
 const NavSideMenu = () => {
+  const isLogged = localStorage.getItem('loggedIn');
+  const [socket] = useContext(MainContext);
   const navigate = useNavigate();
-  const loggedIn = localStorage.getItem('loggedIn');
 
   const logOut = () => {
     logout()
     .then((response) => {
       successMessage(response.data.message);
+      socket.emit('disconnected');
       localStorage.removeItem('loggedIn');
       navigate('/login');
     })
@@ -30,7 +33,7 @@ const NavSideMenu = () => {
           </div>
           <div>
             {
-              !loggedIn ? 
+              !isLogged ? 
               <Link className="btn btn-outline-light" to="/login">Login</Link>
               :
               <Button variant="outline-danger" onClick={logOut}>Logout</Button>

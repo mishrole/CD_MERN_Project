@@ -142,10 +142,12 @@ const login = (req, res) => {
   });
 }
 
-const logout = (req, res) => 
-  res.clearCookie('usertoken')
+const logout = (req, res) => {
+  console.log('Logged out');
+  return res.clearCookie('usertoken')
   .status(200)
   .json({ message: 'Successfully logged out' });
+}
 
 const AuthController = {
   register,

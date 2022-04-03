@@ -1,38 +1,29 @@
-import React, { useEffect, useState } from 'react';
-import { allUsers } from '../helpers/users/allUsers';
-import { errorMessage } from '../utils/SwalMessage';
+import React, { useEffect, useContext } from 'react';
 import { Container } from 'react-bootstrap';
 import NavSideMenu from '../components/NavSideMenu/NavSideMenu';
 import Chat from '../components/Chat/Chat';
+import socketio from "socket.io-client";
+import { config } from '../Constants';
+import MainContext from '../context/SocketContext';
 
 const Workspace = () => {
-  const [users, setUsers] = useState([]);
-
-  useEffect(() => {
-    allUsers()
-    .then((response) => {
-      console.log(response);
-      setUsers(response.data?.users);
-    })
-    .catch((err) => {
-      errorMessage(err?.error?._message || err?.message || err?.error?.message);
-    });
-  }, []);
+  // ! First argument is socket, null by default
+  const [, setSocket] = useContext(MainContext);
   
+  useEffect(() => {
+    // Connect socket
+    const newSocket = socketio.connect(`${config.url.WS_URL}`);
+    // Set socket to MainContext
+    setSocket(newSocket);
+    // Emit connected event
+    newSocket.emit('connected');
+  }, [setSocket]);
+
   return (
     <>
     <NavSideMenu />
     <Container>
       <p>Workspace</p>
-      <ul>
-        {
-          users.map((user) => {
-            return (
-              <li key={user._id}>{user.email}</li>
-            )
-          })
-        }
-      </ul>
       <Chat />
     </Container>
     </>

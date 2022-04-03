@@ -17,6 +17,7 @@ axios.interceptors.request.use(
   },
   (err) => {
     if (err.response.status === 401) {
+      localStorage.removeItem('loggedIn');
       window.location.href = '/login';
     }
 
@@ -35,6 +36,7 @@ axios.interceptors.response.use(
   },
   (err) => {
     if (err.response.status === 401) {
+      localStorage.removeItem('loggedIn');
       window.location.href = '/login';
     }
     

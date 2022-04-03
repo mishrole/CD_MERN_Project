@@ -14,7 +14,7 @@ const server = http.createServer(app);
 const { Server } = require('socket.io');
 const io = new Server(server, {
   cors: {
-    origin: 'http://localhost:3000',
+    origin: ['http://localhost:3000', 'http://localhost:8000'],
     credentials: true
   }
 });
@@ -47,20 +47,22 @@ app.use('/api/users', userRouter);
 app.use('/api/chat', chatappRouter);
 
 // Socket.io Listener
-io.on('connection', socket => {
-  // * Each client gets their own socket id
-  console.log('New WS connection', socket.id);
+// io.on('connection', socket => {
+//   // * Each client gets their own socket id
+//   console.log('New WS connection', socket.id);
 
-  // * Receives a message from the Client
-  socket.on('connected', (data) => {
-    console.log(data);
-    // ? Send a message to all connected clients
-    // socket.broadcast.emit('response', 'Response from server');
+//   // * Receives a message from the Client
+//   socket.on('connected', (data) => {
+//     console.log(data);
+//     // ? Send a message to all connected clients
+//     // socket.broadcast.emit('response', 'Response from server');
 
-    // * Send a message to the client that just connected
-    socket.emit('response', 'Response from the Server');
-  });
-});
+//     // * Send a message to the client that just connected
+//     socket.emit('response', 'Response from the Server');
+//   });
+// });
+const chat = require('./server/config/socketio.config');
+chat(io);
 
 // Express Listener
 server.listen(port, () => console.log(`Server is running on port ${port}`) )
