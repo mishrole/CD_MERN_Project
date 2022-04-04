@@ -5,7 +5,6 @@ import './MessagesList.css';
 const MessagesList = ({ messages }) => {
 
   const messagesContainer = useRef(null);
-  const socketId = localStorage.getItem('socketId');
 
   useEffect(() => {
     messagesContainer && messagesContainer.current.addEventListener('DOMNodeInserted', event => {

@@ -4,27 +4,27 @@ require('dotenv').config();
 const secretkey = process.env.SECRET_KEY;
 
 const announceNewConnection = (socket, decodedToken) => {
-  const user = `${decodedToken.firstname} ${decodedToken.lastname}` || 'Anonymous';
-  socket.emit('socketId', socket.id);
+  const user = `${decodedToken?.firstname} ${decodedToken?.lastname}` || 'Anonymous';
+  socket.emit('userId', decodedToken?.id);
   // Send a message to all clients except the one that just connected
-  socket.broadcast.emit('message_response', { message: `has entered the chat`, date: new Date(), user: user });
+  socket.broadcast.emit('message_response', { message: `has entered the chat`, date: new Date(), user: user, type: 'announcement' });
 }
 
 const getNewMessage = (io, socket, data, decodedToken) => {
   console.log(`Socket ${socket.id} - New Message:`, data);
-  const user = `${decodedToken.firstname} ${decodedToken.lastname}` || 'Anonymous';
+  const user = `${decodedToken?.firstname} ${decodedToken?.lastname}` || 'Anonymous';
   // Send a message to all clients except the one that just connected
   // socket.broadcast.emit('message_response', { message: data.message, date: new Date(), user: user, socketId: socket.id });
-  io.emit('message_response', { message: data.message, date: new Date(), user: user, socketId: socket.id });
+  io.emit('message_response', { message: data.message, date: new Date(), user: user, userId: decodedToken?.id, type: 'message' });
 }
 
 const announceDisconnection = (io, socket, decodedToken) => {
   console.log(`Socket ${socket.id} - Disconnected`);
   // * Send a message to all clients including the one that just disconnected
   // * io.emit('connection_status', `${socket.id} has left the chat`);
-  const user = `${decodedToken.firstname} ${decodedToken.lastname}` || 'Anonymous';
+  const user = `${decodedToken?.firstname} ${decodedToken?.lastname}` || 'Anonymous';
   // Send a message to all clients except the one that just disconnected
-  socket.broadcast.emit('message_response', { message: `has left the chat`, date: new Date(), user: user });
+  socket.broadcast.emit('message_response', { message: `has left the chat`, date: new Date(), user: user, type: 'announcement' });
   socket.disconnect();
 }
 

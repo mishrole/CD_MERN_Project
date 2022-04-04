@@ -1,14 +1,14 @@
 .message-item {
-  width: 300px;
+  border-radius: 22px;
   max-width: 300px;
   min-height: 44px;
-  border-radius: 22px;
   padding: 1em;
+  width: 300px;
 }
 
 .message-item.author-me {
-  border-color: gray;
   background-color: var(--blue-color-700);
+  border-color: gray;
 }
 
 .message-item.author-me b {
@@ -20,8 +20,8 @@
 }
 
 .message-item.author-other {
-  border-color: gray;
   background-color: var(--blue-color-100);
+  border-color: gray;
 }
 
 .message-item.author-other b {
@@ -30,4 +30,11 @@
 
 .message-item.author-other p {
   color: var(--blue-color-600);
+}
+
+.announcement {
+  background-color: var(--gray-color-800);
+  border-radius: 22px;
+  margin: 1em 0;
+  padding: .5em 1em;
 }

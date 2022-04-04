@@ -3,17 +3,17 @@ import './MessageItem.css';
 
 const MessageItem = (props) => {
   const { message } = props;
-  const socketId = localStorage.getItem('socketId');
+  const userId = localStorage.getItem('userId');
 
   return (
-    <div className={`d-flex ${message.socketId === socketId ? 'justify-content-end' : 'justify-content-start'}`}>
-      <div className={`message-item ${message.socketId === socketId ? 'author-me' : 'author-other'}`}>
+    <div className={`d-flex ${message.type === 'message' ? message.userId === userId ? 'justify-content-end' : 'justify-content-start' : 'justify-content-center'}`}>
+      <div className={`${message.type === 'message' ? message.userId === userId ? 'message-item author-me' : 'message-item author-other' : 'announcement'}`}>
         <div className="d-flex justify-content-between">
           <div className="flex-grow-1">
-            <b>{ message.user } </b>
-            <p>{ message.message }</p>  
+            <p className={message.type === 'message' ? 'm-0 fw-bold' : 'd-none'}>{ message.user } </p>
+            <p className="m-0"><span className={message.type === 'message' ? 'd-none' : 'm-0 fw-bold'}>{ message.user } </span>{ message.message }</p>
           </div>
-          <div className="flex-shrink-1">
+          <div className={message.type === 'message' ? 'flex-shrink-1' : 'd-none'}>
             <div className="badge rounded-pill bg-secondary">
             { new Intl.DateTimeFormat(
             'es-ES',
