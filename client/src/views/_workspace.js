@@ -15,8 +15,16 @@ const Workspace = () => {
     const newSocket = socketio.connect(`${config.url.WS_URL}`, { withCredentials: true});
     // Set socket to MainContext
     setSocket(newSocket);
+
     // Emit connected event
     newSocket.emit('connected');
+
+    // * Important: Return function to clean up after component unmounts
+    return () => {
+      // * Disconnect socket when component unmounts
+      newSocket.emit('disconnected');
+      newSocket.disconnect();
+    }
   }, [setSocket]);
 
   return (

@@ -4,9 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import { login } from '../helpers/auth/login';
 import { errorMessage } from '../utils/SwalMessage';
 import LoginForm from '../components/Forms/Auth/LoginForm/LoginForm';
-// import socketio from "socket.io-client";
-// import { config } from '../Constants';
-// import MainContext from '../context/SocketContext';
 
 const Login = () => {
   const [errors, setErrors] = useState([]);
