@@ -17,11 +17,11 @@ const MessageForm = (props) => {
   }
 
   return (
-    <form className="container pt-5 px-3" onSubmit={ handleSubmit(onSubmit) }>
+    <form className="container pt-4 px-3" onSubmit={ handleSubmit(onSubmit) }>
 
           <div className="row align-items-center justify-content-center">
             <div className="mb-3">
-              <label htmlFor="message" className="form-label text-primary">Message</label>
+              <label htmlFor="message" className="form-label text-white">Send to <b>Global Room</b></label>
               <input type="text" className="form-control" id="message" placeholder="Type your message here..."
               {...register(
                 "message", {
