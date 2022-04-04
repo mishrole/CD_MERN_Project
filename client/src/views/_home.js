@@ -1,22 +1,14 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Col, Container, Image, Row } from 'react-bootstrap';
 import NavSideMenu from './../components/NavSideMenu/NavSideMenu';
 import brainstorming from './../assets/img/svg/manypixels_Brainstorming-session_Monochromatic.svg';
 import ranking from './../assets/img/svg/manypixels_Ranking_Monochromatic.svg';
 import teambuilding from './../assets/img/svg/manypixels_Team-building_Monochromatic.svg';
 import progress from './../assets/img/svg/manypixels_Progress_Monochromatic.svg';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Footer from '../components/Footer/Footer';
 
 const Home = () => {
-  const navigate = useNavigate();
-  const loggedIn = localStorage.getItem('loggedIn');
-
-  useEffect(() => {
-    if (loggedIn) {
-      navigate('/workspace');
-    }
-  }, [loggedIn, navigate]);
 
   return (
     <>

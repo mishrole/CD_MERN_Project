@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Col, Row } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { register } from '../helpers/auth/register';
@@ -8,14 +8,6 @@ import RegisterForm from '../components/Forms/Auth/RegisterForm/RegisterForm';
 const Register = () => {
   const [errors, setErrors] = useState([]);
   const navigate = useNavigate();
-  const loggedIn = localStorage.getItem('loggedIn');
-
-  useEffect(() => {
-    if (loggedIn) {
-      navigate('/workspace');
-    }
-  }, [loggedIn, navigate]);
-
 
   const onFormSubmit = (data) => {
     register(data)
