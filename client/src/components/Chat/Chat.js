@@ -10,7 +10,7 @@ const Chat = () => {
 
   useEffect(() => {
    if (isLogged && socket) {
-    socket.on('get_message', (response) => {
+    socket.on('message_response', (response) => {
       console.log(response);
       // ! 😱
       // setMessages([...messages, response]);

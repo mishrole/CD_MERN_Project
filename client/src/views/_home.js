@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 import Footer from '../components/Footer/Footer';
 
 const Home = () => {
+  const isLogged = localStorage.getItem('loggedIn');
 
   return (
     <>
@@ -23,7 +24,7 @@ const Home = () => {
                 <h2 className="pb-2 px-2 px-lg-0">Team Collaboration like never before</h2>
                 <p>Chat, organize, and collaborate with instant messaging across multiple teams. Plan your study sessions, coding projects, and more</p>
                 <div className="py-3">
-                  <Link className="btn btn-primary" to="/register">Get Started</Link>
+                  <Link className="btn btn-primary" to={!isLogged ? '/register' : '/workspace'}>Get Started</Link>
                 </div>
               </Col>
             </Row>
@@ -84,7 +85,7 @@ const Home = () => {
           <Col xs={8} className="py-5">
             <h3 className="text-center py-5">✨ Ready to start your journey? ✨</h3>
             <div className="d-flex justify-content-center align-items-center">
-              <Link className="btn btn-lg btn-primary" to="/register">Get Started</Link>
+              <Link className="btn btn-lg btn-primary" to={!isLogged ? '/register' : '/workspace'}>Get Started</Link>
             </div>
           </Col>
         </Row>

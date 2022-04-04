@@ -6,7 +6,21 @@ const errorMessage = (title, message) => {
     // text: message,
     html: message,
     icon: 'error',
-    confirmButtonText: 'Okay'
+    confirmButtonText: 'Okay',
+    confirmButtonColor: '#0B61EE'
+  });
+}
+
+const warnMessage = (message, buttonMessage) => {
+  return Swal.fire({
+    title: message,
+    icon: 'warning',
+    confirmButtonText: buttonMessage,
+    confirmButtonColor: '#0B61EE'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      return result.value;
+    }
   });
 }
 
@@ -16,7 +30,8 @@ const successMessage = (message) => {
     // text: message,
     html: message,
     icon: 'success',
-    confirmButtonText: 'Cool'
+    confirmButtonText: 'Cool',
+    confirmButtonColor: '#0B61EE'
   });
 }
 
@@ -25,7 +40,7 @@ const confirmMessage = (message) => {
     title: message,
     icon: 'warning',
     showCancelButton: true,
-    confirmButtonColor: '#3085d6',
+    confirmButtonColor: '#0B61EE',
     cancelButtonColor: '#d33',
     confirmButtonText: 'Yes'
   }).then((result) => {
@@ -35,4 +50,4 @@ const confirmMessage = (message) => {
   });
 }
 
-export { errorMessage, successMessage, confirmMessage };
+export { errorMessage, successMessage, confirmMessage, warnMessage };
