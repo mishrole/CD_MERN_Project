@@ -9,6 +9,7 @@ const MessageForm = (props) => {
   const onSubmit = (formData) => {
     const data = {
       message: formData.message,
+      date: new Date().toDateString()
     };
 
     reset();

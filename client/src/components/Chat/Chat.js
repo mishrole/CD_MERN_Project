@@ -24,7 +24,7 @@ const Chat = () => {
   }, [socket, isLogged]);
 
   const onFormSubmit = (data) => {
-    socket.emit('message', data.message);
+    socket.emit('message', data);
   }
 
   return (

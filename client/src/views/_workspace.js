@@ -33,6 +33,11 @@ const Workspace = () => {
       // Emit connected event
       newSocket.emit('connected');
 
+      // Get Socket Id
+      newSocket.on('socketId', (socketId) => {
+        localStorage.setItem('socketId', socketId);
+      });
+
       // * Important: Return function to clean up after component unmounts
       return () => {
         // * Disconnect socket when component unmounts

@@ -1,0 +1,33 @@
+.message-item {
+  width: 300px;
+  max-width: 300px;
+  min-height: 44px;
+  border-radius: 22px;
+  padding: 1em;
+}
+
+.message-item.author-me {
+  border-color: gray;
+  background-color: var(--blue-color-700);
+}
+
+.message-item.author-me b {
+  color: var(--blue-color-50);
+}
+
+.message-item.author-me p {
+  color: var(--blue-color-100);
+}
+
+.message-item.author-other {
+  border-color: gray;
+  background-color: var(--blue-color-100);
+}
+
+.message-item.author-other b {
+  color: var(--blue-color-700);
+}
+
+.message-item.author-other p {
+  color: var(--blue-color-600);
+}
