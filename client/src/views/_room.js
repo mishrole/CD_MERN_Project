@@ -13,9 +13,6 @@ const Room = () => {
   // Room name
   const { name } = useParams();
 
-  // Connected users on join
-  const [users, setUsers] = useState([]);
-
   // ! First argument is socket, null by default
   const [, setSocket] = useContext(MainContext);
   const isLogged = localStorage.getItem('loggedIn');
@@ -45,11 +42,6 @@ const Room = () => {
         localStorage.setItem('userId', userId);
       });
 
-      // Get users
-      newSocket.on('users', (users) => {
-        setUsers(users);
-      });
-
       // * Important: Return function to clean up after component unmounts
       return () => {
         // * Disconnect socket when component unmounts
@@ -60,14 +52,14 @@ const Room = () => {
       goToHome();
     }
 
-  }, [setSocket, isLogged, setUsers]);
+  }, [setSocket, isLogged]);
 
   return (
     <>
     <NavSideMenu />
     <Container className="position-relative full-height">
       {
-        isLogged ? <Chat name={ name } users={ users }/> : <h1>Not connected</h1>
+        isLogged ? <Chat name={ name }/> : <h1>Not connected</h1>
       }
     </Container>
     </>

@@ -29,7 +29,7 @@ const announceDisconnection = (io, socket, decodedToken) => {
   socket.disconnect();
 }
 
-const joinRoom = (socket, data, decodedToken) => {
+const joinRoom = (io, socket, data, decodedToken) => {
   console.log(`Socket ${socket.id} - Joining room:`, data.room);
   const userFullName = `${decodedToken?.firstname} ${decodedToken?.lastname}` || 'Anonymous';
   const joinedUser = userJoin(socket.id, decodedToken?.id, userFullName, data.room);
@@ -39,20 +39,26 @@ const joinRoom = (socket, data, decodedToken) => {
 
   // Response with users connected to the room
   const users = getUsersConnectedToRoom(data.room);
-  socket.emit('users', users);
+  io.to(data.room).emit('users', users);
 
   // Send a message to all clients in a room except the one that just connected
-  socket.broadcast.to(joinedUser.room).emit('message_response', { message: `has joined the chat`, date: new Date(), user: joinedUser.name, type: 'announcement' });
+  socket.broadcast.to(joinedUser.room).emit('message_response', { message: `has joined the chat`, date: new Date(), user: joinedUser.name, type: 'announcement'});
 }
 
 const messageRoom = (io, socket, data, decodedToken) => {
   const userFullName = `${decodedToken?.firstname} ${decodedToken?.lastname}` || 'Anonymous';
+  // Response with users connected to the room
+  const users = getUsersConnectedToRoom(data.room);
+  io.to(data.room).emit('users', users);
   io.to(data.room).emit('message_response', { message: data.message, date: new Date(), user: userFullName, userId: decodedToken?.id, type: 'message' });
 }
 
 const leaveRoom = (io, socket, data, decodedToken) => {
   const userFullName = `${decodedToken?.firstname} ${decodedToken?.lastname}` || 'Anonymous';
   userLeave(decodedToken?.id, data.room);
+  // Response with users connected to the room
+  const users = getUsersConnectedToRoom(data.room);
+  io.to(data.room).emit('users', users);
   socket.broadcast.to(data.room).emit('message_response', { message: `has left the chat`, date: new Date(), user: userFullName, type: 'announcement' });
   socket.disconnect();
 }
@@ -84,7 +90,7 @@ const chat = (io) => {
     socket.on('disconnected', () => announceDisconnection(io, socket, decodedToken));
 
     // Join a room
-    socket.on('join', (data) => joinRoom(socket, data, decodedToken));
+    socket.on('join', (data) => joinRoom(io, socket, data, decodedToken));
 
     // Message a room
     socket.on('room_message', (data) => messageRoom(io, socket, data, decodedToken));
