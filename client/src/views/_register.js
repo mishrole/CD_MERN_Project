@@ -13,7 +13,7 @@ const Register = () => {
     register(data)
     .then((response) => {
       localStorage.setItem( 'loggedIn', true );
-      navigate('/workspace');
+      navigate('/rooms');
     })
     .catch((err) => {
       const errors = err?.error?.errors;

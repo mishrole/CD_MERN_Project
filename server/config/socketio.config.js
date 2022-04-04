@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 // Dotenv Config
 require('dotenv').config();
 const secretkey = process.env.SECRET_KEY;
+const { userJoin, getCurrentUser, updateSocketId, userLeave, getUsersConnectedToRoom } = require('./../utils/rooms');
 
 const announceNewConnection = (socket, decodedToken) => {
   const user = `${decodedToken?.firstname} ${decodedToken?.lastname}` || 'Anonymous';
@@ -28,19 +29,48 @@ const announceDisconnection = (io, socket, decodedToken) => {
   socket.disconnect();
 }
 
+const joinRoom = (socket, data, decodedToken) => {
+  console.log(`Socket ${socket.id} - Joining room:`, data.room);
+  const userFullName = `${decodedToken?.firstname} ${decodedToken?.lastname}` || 'Anonymous';
+  const joinedUser = userJoin(socket.id, decodedToken?.id, userFullName, data.room);
+  // Join the room
+  socket.join(joinedUser.room);
+  socket.emit('userId', decodedToken?.id);
+
+  // Response with users connected to the room
+  const users = getUsersConnectedToRoom(data.room);
+  socket.emit('users', users);
+
+  // Send a message to all clients in a room except the one that just connected
+  socket.broadcast.to(joinedUser.room).emit('message_response', { message: `has joined the chat`, date: new Date(), user: joinedUser.name, type: 'announcement' });
+}
+
+const messageRoom = (io, socket, data, decodedToken) => {
+  const userFullName = `${decodedToken?.firstname} ${decodedToken?.lastname}` || 'Anonymous';
+  io.to(data.room).emit('message_response', { message: data.message, date: new Date(), user: userFullName, userId: decodedToken?.id, type: 'message' });
+}
+
+const leaveRoom = (io, socket, data, decodedToken) => {
+  const userFullName = `${decodedToken?.firstname} ${decodedToken?.lastname}` || 'Anonymous';
+  userLeave(decodedToken?.id, data.room);
+  socket.broadcast.to(data.room).emit('message_response', { message: `has left the chat`, date: new Date(), user: userFullName, type: 'announcement' });
+  socket.disconnect();
+}
+
+// const getRoomUsers = (socket, data) => {
+//   const users = getUsersConnectedToRoom(data.room);
+//   socket.emit('users_response', users);
+// }
+
 const chat = (io) => {
   io.on('connection', (socket) => {
     // * Each client gets their own socket id
     console.log('New WS connection', socket.id);
-    // console.log('\n cookie: ', socket.handshake.headers.cookie.split("; "), '\n');
-    // console.log('Handshake cookie', socket.handshake);
-    // const cookies = socket.handshake.headers.cookie.split("; ");
-    // const usertoken = cookies.filter(cookie => cookie.includes('usertoken'));
 
+    // * Decode Cookie
     const cookie = socket?.handshake?.headers?.cookie?.split("=")[1];
     const decodedToken = jwt.decode(cookie, secretkey);
     console.log(decodedToken);
-
 
     // * Listeners
 
@@ -52,6 +82,18 @@ const chat = (io) => {
 
     // Announce that a user has disconnected
     socket.on('disconnected', () => announceDisconnection(io, socket, decodedToken));
+
+    // Join a room
+    socket.on('join', (data) => joinRoom(socket, data, decodedToken));
+
+    // Message a room
+    socket.on('room_message', (data) => messageRoom(io, socket, data, decodedToken));
+
+    // Leave a room
+    socket.on('leave', (data) => leaveRoom(io, socket, data, decodedToken));
+
+    // Get users connected to a room
+    // socket.on('users', (data) => getRoomUsers(socket, data));
 
   });
 }

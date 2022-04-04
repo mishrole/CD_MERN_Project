@@ -2,14 +2,15 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 
 const MessageForm = (props) => {
-  const { onSubmitProp } = props;
+  const { onSubmitProp, roomName, users } = props;
 
   const { register, handleSubmit, reset, formState: { errors } } = useForm();
 
   const onSubmit = (formData) => {
     const data = {
       message: formData.message,
-      date: new Date().toDateString()
+      date: new Date().toDateString(),
+      room: roomName
     };
 
     reset();
@@ -21,8 +22,11 @@ const MessageForm = (props) => {
 
           <div className="row align-items-center justify-content-center">
             <div className="mb-3">
-              <label htmlFor="message" className="form-label text-white">Send to <b>Global Room</b></label>
-              <input type="text" className="form-control" id="message" placeholder="Type your message here..."
+              <div className="d-flex justify-content-between">
+                <label htmlFor="message" className="form-label text-white">Send to <b><span className="text-capitalize">{roomName}</span> Room</b></label>
+                <span>{users} online</span>
+              </div>
+              <input type="text" className="form-control" id="message" placeholder="Type your message here..." autoComplete="off"
               {...register(
                 "message", {
                   required: {

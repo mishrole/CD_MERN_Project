@@ -3,7 +3,10 @@ import MainContext from '../../context/SocketContext';
 import MessageForm from './MessageForm/MessageForm';
 import MessagesList from './MessagesList/MessagesList';
 
-const Chat = () => {
+const Chat = (props) => {
+  const roomName = props?.name || 'global';
+  const users = props?.users;
+
   const [socket] = useContext(MainContext);
   const isLogged = localStorage.getItem('loggedIn');
   const [messages, setMessages] = useState([]);
@@ -24,7 +27,7 @@ const Chat = () => {
   }, [socket, isLogged]);
 
   const onFormSubmit = (data) => {
-    socket.emit('message', data);
+    socket.emit('room_message', data);
   }
 
   return (
@@ -39,7 +42,7 @@ const Chat = () => {
       }
 
       <div className="flex-shink-0">
-        <MessageForm onSubmitProp={ onFormSubmit }/>
+        <MessageForm onSubmitProp={ onFormSubmit } roomName={ roomName } users={users.length || 0}/>
       </div>
 
     </div>

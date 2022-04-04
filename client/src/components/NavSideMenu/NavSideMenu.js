@@ -16,6 +16,7 @@ const NavSideMenu = () => {
       successMessage(response.data.message);
       socket.emit('disconnected');
       localStorage.removeItem('loggedIn');
+      localStorage.removeItem('userId');
       navigate('/login');
     })
     .catch((err) => {
@@ -47,7 +48,9 @@ const NavSideMenu = () => {
               <Nav className="justify-content-end flex-grow-1 pe-3">
                 <Link to="/" className="nav-link">Home</Link>
                 {
-                  isLogged ? <Link to="/workspace" className="nav-link">Chat</Link> : ''
+                  isLogged ? <>
+                  <Link to="/rooms" className="nav-link">Rooms</Link>
+                  </> : ''
                 }
               </Nav>
             </Offcanvas.Body>

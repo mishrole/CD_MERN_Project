@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Col, Row } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { login } from '../helpers/auth/login';
@@ -14,8 +14,8 @@ const Login = () => {
     .then((response) => {
       // Set loggedIn to true
       localStorage.setItem( 'loggedIn', true );
-      // Redirect to chats workspace
-      navigate('/workspace');
+      // Redirect to rooms list
+      navigate('/rooms');
     })
     .catch((err) => {
       const errors = err?.error?.errors;
