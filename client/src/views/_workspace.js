@@ -11,8 +11,8 @@ const Workspace = () => {
   const [, setSocket] = useContext(MainContext);
   
   useEffect(() => {
-    // Connect socket
-    const newSocket = socketio.connect(`${config.url.WS_URL}`);
+    // Connect socket with cookie
+    const newSocket = socketio.connect(`${config.url.WS_URL}`, { withCredentials: true});
     // Set socket to MainContext
     setSocket(newSocket);
     // Emit connected event

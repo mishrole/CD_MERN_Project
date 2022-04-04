@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Col, Row } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { login } from '../helpers/auth/login';
@@ -11,6 +11,13 @@ import LoginForm from '../components/Forms/Auth/LoginForm/LoginForm';
 const Login = () => {
   const [errors, setErrors] = useState([]);
   const navigate = useNavigate();
+  const loggedIn = localStorage.getItem('loggedIn');
+
+  useEffect(() => {
+    if (loggedIn) {
+      navigate('/workspace');
+    }
+  }, [loggedIn, navigate]);
 
   const onFormSubmit = (data) => {
     login(data)

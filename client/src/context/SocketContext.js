@@ -4,7 +4,7 @@ const MainContext = createContext();
 
 const MainContextProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
-
+  
   return (
     <MainContext.Provider value={ [socket, setSocket] }>
       { children }
