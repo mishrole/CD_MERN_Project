@@ -55,7 +55,7 @@ const messageRoom = (io, socket, data, decodedToken) => {
 
 const leaveRoom = (io, socket, data, decodedToken) => {
   const userFullName = `${decodedToken?.firstname} ${decodedToken?.lastname}` || 'Anonymous';
-  userLeave(decodedToken?.id, data.room);
+  userLeave(decodedToken?.id, socket.id, data.room);
   // Response with users connected to the room
   const users = getUsersConnectedToRoom(data.room);
   io.to(data.room).emit('users', users);

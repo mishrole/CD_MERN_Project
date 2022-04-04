@@ -16,8 +16,8 @@ const updateSocketId = (id, socketId) => {
   return user;
 }
 
-const userLeave = (id, room) => {
-  const filteredUsers = users.filter((user) => user.id !== id && user.room === room);
+const userLeave = (id, socketId, room) => {
+  const filteredUsers = users.filter((user) => user.id !== id && user.socketId !== socketId);
   users = filteredUsers;
   return filteredUsers;
 }
