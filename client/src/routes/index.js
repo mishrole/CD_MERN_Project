@@ -18,7 +18,6 @@ const Root = () => {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={!isLogged ? <Login /> : <Navigate to="/rooms" replace />} />
         <Route path="/register" element={!isLogged ? <Register /> : <Navigate to="/rooms" replace />} />
-        {/* <Route path="/rooms" element={ !isLogged ? <Navigate to="/login" replace /> : <Rooms/> }/> */}
         <Route path="/rooms" element={ <Rooms/> }/>
         <Route path="/rooms/:name" element={<Room />}/>
         <Route path="*" element={ <NotFound /> } />

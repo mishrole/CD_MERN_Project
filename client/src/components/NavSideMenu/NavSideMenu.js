@@ -14,7 +14,9 @@ const NavSideMenu = () => {
     logout()
     .then((response) => {
       successMessage(response.data.message);
-      socket.emit('disconnected');
+      if (socket) {
+        socket.emit('disconnected');
+      }
       localStorage.removeItem('loggedIn');
       localStorage.removeItem('userId');
       navigate('/login');
