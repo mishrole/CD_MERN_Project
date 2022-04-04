@@ -17,7 +17,6 @@ const LoginForm = (props) => {
     };
 
     onSubmitProp(data);
-    console.log(data);
   }
 
   return (

@@ -14,7 +14,6 @@ const Chat = (props) => {
   useEffect(() => {
    if (isLogged && socket) {
     socket.on('message_response', (response) => {
-      console.log(response);
       // ! 😱
       // setMessages([...messages, response]);
       setMessages (prevMessages => {
