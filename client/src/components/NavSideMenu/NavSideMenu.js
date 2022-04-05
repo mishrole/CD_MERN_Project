@@ -7,7 +7,7 @@ import MainContext from '../../context/SocketContext';
 
 const NavSideMenu = () => {
   const isLogged = localStorage.getItem('loggedIn');
-  const [socket] = useContext(MainContext);
+  const [socket, setSocket] = useContext(MainContext);
   const navigate = useNavigate();
 
   const logOut = () => {
@@ -16,6 +16,7 @@ const NavSideMenu = () => {
       successMessage(response.data.message);
       if (socket) {
         socket.emit('disconnected');
+        setSocket(null);
       }
       localStorage.removeItem('loggedIn');
       localStorage.removeItem('userId');
