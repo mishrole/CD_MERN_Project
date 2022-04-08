@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './MessageItem.css';
 
 const MessageItem = (props) => {
@@ -10,7 +11,7 @@ const MessageItem = (props) => {
       <div className={`${message.type === 'message' ? message.userId === userId ? 'message-item author-me' : 'message-item author-other' : 'announcement'}`}>
         <div className="d-flex justify-content-between">
           <div className="flex-grow-1">
-            <p className={message.type === 'message' ? 'm-0 fw-bold' : 'd-none'}>{ message.user } </p>
+            <Link to={`/profile/${message.userId}`} className={`${message.type === 'message' ? 'm-0' : 'd-none'}`}><b>{ message.user }</b></Link>
             <p className="m-0"><span className={message.type === 'message' ? 'd-none' : 'm-0 fw-bold'}>{ message.user } </span>{ message.message }</p>
           </div>
           <div className={message.type === 'message' ? 'flex-shrink-1' : 'd-none'}>

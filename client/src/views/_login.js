@@ -18,6 +18,7 @@ const Login = () => {
       navigate('/rooms');
     })
     .catch((err) => {
+      console.warn(err);
       const errors = err?.error?.errors;
       const errorArr = [];
       let errorsHTML = "";
@@ -30,7 +31,6 @@ const Login = () => {
       }
 
       setErrors(errorArr);
-      
       errorMessage(err?.error?._message || err?.message, errorsHTML || err?.error?.message);
     });
   }

@@ -27,6 +27,12 @@ const updateSocketId = (id, room, socketId) => {
   return user;
 }
 
+const leaveFromAll = (id) => {
+  const filteredUsers = users.filter((user) => user.id === id);
+  users = filteredUsers;
+  return filteredUsers;
+}
+
 const userLeave = (id, socketId) => {
   const filteredUsers = users.filter((user) => user.id !== id && user.socketId !== socketId);
   users = filteredUsers;
@@ -48,4 +54,4 @@ const getUsers = () => {
   return users;
 }
 
-module.exports = { userJoin, userLeave, getUsersConnectedToRoom, getUsers, userLogout };
+module.exports = { userJoin, userLeave, getUsersConnectedToRoom, getUsers, userLogout, leaveFromAll };

@@ -4,7 +4,7 @@ import MessageForm from './MessageForm/MessageForm';
 import MessagesList from './MessagesList/MessagesList';
 
 const Chat = (props) => {
-  const roomName = props?.name || 'global';
+  const { name, room } = props;
 
   const [socket] = useContext(MainContext);
   const isLogged = localStorage.getItem('loggedIn');
@@ -19,10 +19,12 @@ const Chat = (props) => {
       setMessages (prevMessages => {
         return [...prevMessages, response];
       })
+
+      console.table('messages', response);
     });
 
     socket.on('users', (response) => {
-      setUsersConnected(response?.length);
+      setUsersConnected(response);
     });
    }
   // ! Causes an ugly re-rendering 😱
@@ -45,7 +47,7 @@ const Chat = (props) => {
       }
 
       <div className="flex-shink-0">
-        <MessageForm onSubmitProp={ onFormSubmit } roomName={ roomName } users={ usersConnected }/>
+        <MessageForm onSubmitProp={ onFormSubmit } room={ room } roomName={ name } users={ usersConnected }/>
       </div>
 
     </div>

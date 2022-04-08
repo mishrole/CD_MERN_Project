@@ -12,7 +12,7 @@ const NotFound = () => {
         <div className="col-md-6 d-flex py-2">
           <div className="d-flex flex-column justify-content-center align-items-center">
             <div className="col-8 col-md-10 col-lg-11 pb-3">
-              <h3 class="text-center">Sorry, we couldn't found the data you were looking for.</h3>
+              <h3 className="text-center">Sorry, we couldn't found the data you were looking for.</h3>
             </div>
             <Link className="btn btn-primary" to="/">Go to Home</Link>
           </div>

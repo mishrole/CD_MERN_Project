@@ -18,8 +18,8 @@ const NavSideMenu = () => {
         socket.emit('disconnected');
         setSocket(null);
       }
-      localStorage.removeItem('loggedIn');
       localStorage.removeItem('userId');
+      localStorage.removeItem('loggedIn');
       navigate('/login');
     })
     .catch((err) => {
@@ -47,15 +47,22 @@ const NavSideMenu = () => {
             <Offcanvas.Header closeButton>
               <Offcanvas.Title id="offcanvasNavbarLabel" className="text-white">Dojo Chat</Offcanvas.Title>
             </Offcanvas.Header>
-            <Offcanvas.Body>
-              <Nav className="justify-content-end flex-grow-1 pe-3">
-                <Link to="/" className="nav-link">Home</Link>
-                {
-                  isLogged ? <>
-                  <Link to="/rooms" className="nav-link">Rooms</Link>
-                  </> : ''
-                }
-              </Nav>
+            <Offcanvas.Body className="position-relative">
+              <div className="d-flex justify-column-between flex-column position-absolute top-0 bottom-0 start-0 end-0 p-4">
+                <div className="flex-grow-1">
+                  <Nav className="justify-content-end flex-grow-1 pe-3">
+                  <Link to="/" className="nav-link">Home</Link>
+                  {
+                    isLogged ? <>
+                    <Link to="/rooms" className="nav-link">Rooms</Link>
+                    </> : ''
+                  }
+                  </Nav>
+                </div>
+                <div className="flex-shrink d-flex align-items-center">
+                  <Link className="nav-link" to="/profile">User profile</Link>
+                </div>
+              </div>
             </Offcanvas.Body>
           </Navbar.Offcanvas>
         </Container>

@@ -5,13 +5,15 @@ import Chat from '../components/Chat/Chat';
 import socketio from "socket.io-client";
 import { config } from '../Constants';
 import MainContext from '../context/SocketContext';
-import { warnMessage } from '../utils/SwalMessage';
+import { errorMessage, warnMessage } from '../utils/SwalMessage';
 import { useNavigate, useParams } from 'react-router-dom';
+import { findRoom } from './../helpers/rooms/findRoom';
 
 const Room = () => {
 
   // Room name
   const { name } = useParams();
+  const [room, setRoom] = useState(null);
 
   // ! First argument is socket, null by default
   const [socket, setSocket] = useContext(MainContext);
@@ -27,46 +29,67 @@ const Room = () => {
     }
 
   }
+
+  const goToNotFound = () => navigate('/not-found');
+
+  const joinRoom = (specificSocket) => {
+    // Emit connected event on join room
+    specificSocket.emit('join', { room: name });
+
+    // Get Socket Id
+    specificSocket.on('userId', (userId) => {
+      localStorage.setItem('userId', userId);
+    });
+  }
+
+  useEffect(() => {
+    // * Important: Return function to clean up after component unmounts
+    return () => {
+      if (socket) {
+        // ! Don't disconnect socket when component unmounts (keep 1 socket per user alive)
+        // // * Disconnect socket when component unmounts
+        // Emit message to broadcast in room
+        socket.emit('leave' , { room: name });
+        // socket.disconnect();
+      }
+    }
+  }, []);
   
   useEffect(() => {
     if (isLogged) {
-      // ! Only creates a socket connection if the user is logged in and the socket is not already created
-      if (!socket) {
-        // Connect socket with cookie
-        const newSocket = socketio.connect(`${config.url.WS_URL}`, { withCredentials: true});
 
-        // Set socket to MainContext
-        setSocket(newSocket);
+      // * Find room by Id (Param)
+      findRoom(name)
+      .then((data) => {
+        if (data.room) {
+          console.log(data.room);
+          setRoom(data.room);
+          // ! Only creates a socket connection if the user is logged in and the socket is not already created
+          if (!socket) {
+            // Connect socket with cookie
+            const newSocket = socketio.connect(`${config.url.WS_URL}`, { withCredentials: true});
 
-        // Emit connected event on join room
-        newSocket.emit('join', { room: name });
+            // Set socket to MainContext
+            setSocket(newSocket);
 
-        // Get Socket Id
-        newSocket.on('userId', (userId) => {
-          localStorage.setItem('userId', userId);
-        });
-      } else {
-        // ! If there is a socket already created, emit join room event
-        // Emit connected event on join room
-        socket.emit('join', { room: name });
+            joinRoom(newSocket);
 
-        // Get Socket Id
-        socket.on('userId', (userId) => {
-          localStorage.setItem('userId', userId);
-        });
-      }
-      // * Important: Return function to clean up after component unmounts
-      return () => {
-        if (socket) {
-          // * Disconnect socket when component unmounts
-          socket.emit('leave' , { room: name });
-          // ! Don't disconnect socket when component unmounts (keep 1 socket per user alive)
-          // socket.disconnect();
+          } else {
+            // ! If there is a socket already created, emit join room event
+            joinRoom(socket);
+          }
+
+        } else {
+          goToNotFound();
         }
-      }
+      })
+      .catch((err) => {
+        console.warn(err);
+        errorMessage(err?.error?._message || err?.message || err?.error?.message);
+      });
     }
 
-    if (!isLogged || !userId) {
+    if (!isLogged) {
       goToHome();
     }
 
@@ -77,7 +100,7 @@ const Room = () => {
     <NavSideMenu />
     <Container className="position-relative full-height">
       {
-        isLogged ? <Chat name={ name }/> : <h1>Not connected</h1>
+        isLogged ? <Chat room={ room } name={ name }/> : <h1>Not connected</h1>
       }
     </Container>
     </>

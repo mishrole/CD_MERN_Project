@@ -16,6 +16,7 @@ const Register = () => {
       navigate('/rooms');
     })
     .catch((err) => {
+      console.warn(err);
       const errors = err?.error?.errors;
       const errorArr = [];
       let errorsHTML = "";

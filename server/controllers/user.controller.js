@@ -1,4 +1,8 @@
 const { User } = require('./../models/user.model');
+const jwt = require('jsonwebtoken');
+// Dotenv Config
+require('dotenv').config();
+const secretkey = process.env.SECRET_KEY;
 
 const getAllUsers = (req, res) => {
   User.find({}).sort({ type: 'asc' })
@@ -92,10 +96,69 @@ const findUser = (req, res) => {
   );
 }
 
+const getCurrentUser = (req, res) => {
+  const usertoken = req.cookies.usertoken;
+  const decodedToken = jwt.decode(usertoken, secretkey);
+
+  User.findOne({ _id: decodedToken.id })
+  .then(data =>
+    res.status(200).json({
+      user: data
+    })
+  )
+  .catch(err =>
+    res.status(400).json({
+      message: `Error getting user wit Id ${decodedToken.id}`,
+      error: err
+    })
+  );
+}
+
+const editUser = (req, res) => {
+  const { firstname, lastname } = req.body;
+  const usertoken = req.cookies.usertoken;
+  const decodedToken = jwt.decode(usertoken, secretkey);
+
+  if (!firstname || !lastname) {
+    return res.status(406).json({
+      message: 'Please provide firstname and lastname'
+    });
+  } else {
+    User.findOneAndUpdate({ _id: decodedToken.id }, { firstname, lastname }, {returnDocument: 'after'})
+    .then(data => {
+      const payload = {
+        id: data._id,
+        email: data.email,
+        firstname: data.firstname,
+        lastname: data.lastname,
+        role: data.role
+      };
+
+      const expiration = {
+        expiresIn: '20m'
+      }
+
+      // * Response with jwt token
+      const newJwt = jwt.sign(payload, secretkey, expiration);
+      res.cookie('usertoken', newJwt, secretkey, {
+        httpOnly: true
+      }).json({ message: 'User updated successfully', user: data });
+    })
+    .catch(err =>
+      res.status(400).json({
+        message: `Error getting user with Id ${decodedToken.id}`,
+        error: err
+      })
+    );
+  }
+}
+
 const UserController = {
   getAllUsers,
   createUser,
-  findUser
+  findUser,
+  editUser,
+  getCurrentUser
 }
 
 module.exports = UserController;
