@@ -62,7 +62,7 @@ const joinRoom = (io, socket, data) => {
   console.log(`Socket ${socket.id} - Joining room: ${data.room}. Sockets in room: ${io.sockets.adapter.rooms.get(data.room)?.size}`);
   // Send a message to all clients in a room except the one that just connected
   // socket.broadcast.to(joinedUser.room).emit('message_response', { message: `has joined the chat`, date: new Date(), user: joinedUser.name, type: 'announcement'});
-  socket.to(joinedUser.room).emit('message_response', { message: `has joined the chat`, date: new Date(), user: joinedUser.name, type: 'announcement'});
+  socket.to(joinedUser.room).emit('message_response', { room: data.room, message: `has joined the chat`, date: new Date(), user: joinedUser.name, type: 'announcement'});
 }
 
 const messageRoom = (io, socket, data) => {
@@ -85,7 +85,7 @@ const leaveRoom = (io, socket, data) => {
   const cookie = socket?.handshake?.headers?.cookie?.split("=")[1];
   const decodedToken = jwt.decode(cookie, secretkey);
   const userFullName = `${decodedToken?.firstname} ${decodedToken?.lastname}` || 'Anonymous';
-  socket.to(data.room).emit('message_response', { message: `has left the chat`, date: new Date(), user: userFullName, type: 'announcement' });
+  socket.to(data.room).emit('message_response', { room: data.room, message: `has left the chat`, date: new Date(), user: userFullName, type: 'announcement' });
   // Response with users connected to the room
   // const users = getUsersConnectedToRoom(data.room);
   const roomAdapter = io.sockets.adapter.rooms.get(data.room);

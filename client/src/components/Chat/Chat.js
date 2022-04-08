@@ -16,9 +16,16 @@ const Chat = (props) => {
     socket.on('message_response', (response) => {
       // ! 😱
       // setMessages([...messages, response]);
-      setMessages (prevMessages => {
-        return [...prevMessages, response];
-      })
+      // Filter messages by room messages
+      console.log(response)
+      // const filteredMessages = response.filter(message => message.room === room._id);
+      // console.log(filteredMessages);
+
+      if(response.room === name) {
+        setMessages (prevMessages => {
+          return [...prevMessages, response];
+        })
+      }
 
       console.table('messages', response);
     });
